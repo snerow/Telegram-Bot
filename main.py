@@ -20,7 +20,7 @@ def main(message):
     markup.add(types.InlineKeyboardButton('Перейти на ТГ канал', url='https://t.me/Tstroy33'))
 
     bot.reply_to(message,
-                     'Привет, Егор! \nЭто я - твой будущий бот для расчёта стоимости установки дымохода :)',
+                     f'Привет, {message.from_user.first_name}! \nЭто я - твой бот для расчёта стоимости установки дымохода :)',
                      reply_markup=markup)
 
 
@@ -44,9 +44,9 @@ def help(message):
     bot.send_message(message.chat.id, '🔧 Как работает наш бот?\n\n'
                                       'Для начала введите команду /start.'
                                       'В открывшемся окне нажмите на кнопку <<Запустить бота>>.\n'
-                                      'Далее в высвечивающихся окнах нажимайте на кнопки с необходимыми для '
-                                      'Вас значениями рассчёта.\n\n'
-                                      'Для завершения работы и получения результаторв\b'
+                                      'Далее в окнах нажимайте на кнопки с необходимыми для '
+                                      'Вас значениями расчёта.\n\n'
+                                      'Для завершения работы и получения результатов\b'
                                       ' необходимо в последнем блоке нажать кнопку <<Поставить зонт>>.')
 
 
@@ -139,6 +139,7 @@ def callback_message(callback):
 
 # блок <<ВЫБОР МАТЕРИАЛА>>
 def material_selection(callback):
+    bot.delete_message(callback.message.chat.id, callback.message.message_id)
     markup = types.InlineKeyboardMarkup()
     btn1 = types.InlineKeyboardButton('Нерж. + Нерж. 1 мм', callback_data='stainless_stainless_1')
     btn2 = types.InlineKeyboardButton('Нерж. + Нерж. 0,5 мм', callback_data='stainless_stainless_05')
@@ -168,6 +169,7 @@ def stainless_galvanized_05(callback):
 
 # блок <<ВЫБОР ВНУТРЕННЕГО ДИАМЕТРА>>
 def inner_diameter_selection(callback):
+    bot.delete_message(callback.message.chat.id, callback.message.message_id)
     markup = types.InlineKeyboardMarkup()
     btn1 = types.InlineKeyboardButton('115 мм', callback_data='d115')
     btn2 = types.InlineKeyboardButton('120 мм', callback_data='d120')
@@ -210,6 +212,7 @@ def d300(callback):
 
 # блок <<КАК ПОЙДЁТ ДЫМОХОД?>>
 def where_flue_go(callback):
+    bot.delete_message(callback.message.chat.id, callback.message.message_id)
     markup = types.InlineKeyboardMarkup()
     btn1 = types.InlineKeyboardButton('Через стену', callback_data='flue_from_wall')
     btn2 = types.InlineKeyboardButton('Через потолок', callback_data='flue_from_ceiling')
@@ -228,6 +231,7 @@ def flue_from_ceiling(callback):
 
 # блок <<ВЫБОР ТРУБЫ>>
 def pipe_selection(callback):
+    bot.delete_message(callback.message.chat.id, callback.message.message_id)
     markup = types.InlineKeyboardMarkup()
     btn1 = types.InlineKeyboardButton('1 м', callback_data='pipe_selection_1m')
     btn2 = types.InlineKeyboardButton('1/2 м', callback_data='pipe_selection_05m')
@@ -268,6 +272,7 @@ def pipe_selection_monotermo_150and250(callback):
 
 # блок <<ВЫБОР СЭНДВИЧ ТРУБЫ>>
 def sandwich_pipe_selection(callback):
+    bot.delete_message(callback.message.chat.id, callback.message.message_id)
     markup = types.InlineKeyboardMarkup()
     btn1 = types.InlineKeyboardButton('1 м', callback_data='sandwich_pipe_selection_1m')
     btn2 = types.InlineKeyboardButton('1/2 м', callback_data='sandwich_pipe_selection_05m')
@@ -308,6 +313,7 @@ def tee_angle90(callback):
 
 # блок <<ВЗЯТЬ КОНДЕНСАТОСБОРНИК?>>
 def is_condensate_collector(callback):
+    bot.delete_message(callback.message.chat.id, callback.message.message_id)
     markup = types.InlineKeyboardMarkup()
     btn1 = types.InlineKeyboardButton('Да', callback_data='condensate_collector_yes')
     btn2 = types.InlineKeyboardButton('Нет', callback_data='condensate_collector_no')
@@ -325,6 +331,7 @@ def condensate_collector_no(callback):
 
 # блок <<ЧТО ВЗЯТЬ К МОНТАЖНОЙ ПЛОЩАДКЕ?>>
 def mounting_platform(callback):
+    bot.delete_message(callback.message.chat.id, callback.message.message_id)
     markup = types.InlineKeyboardMarkup()
     btn1 = types.InlineKeyboardButton('Опору и обычные\nкронштейны', callback_data='mounting_platform_with_brackets')
     btn2 = types.InlineKeyboardButton('Опору и удлинённые\nкронштейны', callback_data='mounting_platform_with_long_brackets')
@@ -348,6 +355,7 @@ def mounting_platform_with_nothing(callback):
 
 # блок <<ВЫБОР СЭНДВИЧ ТРУБЫ ИЛИ ЗОНТА>>
 def sandwich_pipe_or_umbrella_selection(callback):
+    bot.delete_message(callback.message.chat.id, callback.message.message_id)
     markup = types.InlineKeyboardMarkup()
     btn1 = types.InlineKeyboardButton('1 м', callback_data='sandwich_pipe_or_umbrella_selection_1m')
     btn2 = types.InlineKeyboardButton('1/2 м', callback_data='sandwich_pipe_or_umbrella_selection_05m')
@@ -375,16 +383,25 @@ def sandwich_pipe_or_umbrella_selection_angle45(callback):
 def sandwich_pipe_or_umbrella_selection_angle90(callback):
     string.append('Угол 90 градусов')
     sandwich_pipe_or_umbrella_selection(callback)
-def umbrella(callback):
-    string.append('Зонт')
-    end_of_bot_work(callback)
 # конец блока <<ВЫБОР СЭНДВИЧ ТРУБЫ ИЛИ ЗОНТА>>
 
 
+
+# БЛОК ОБЩИХ ФУНКЦИЙ
+
+# функция кнопки <<Зонт>>
+def umbrella(callback):
+    string.append('Зонт')
+    end_of_bot_work(callback)
+
 # функция окончания работы бота и подведения итогов
 def end_of_bot_work(callback):
+    bot.delete_message(callback.message.chat.id, callback.message.message_id)
     bot.send_message(callback.message.chat.id, 'Конец работы бота!')
     bot.send_message(callback.message.chat.id, 'ИТОГ:\n\n' + "\n".join(string))
+    bot.send_message(callback.message.chat.id, 'Перезапустить бота: /start')
+
+# КОНЕЦ БЛОКА ОБЩИХ ФУНКЦИЙ
 
 
 # грубо говоря, бесконечный цикл, позволяющий не прекращать работу (выключится программа - выключится бот)
