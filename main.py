@@ -13,6 +13,7 @@ string = []
 # обработка команды запуска бота /start
 @bot.message_handler(commands=['start'])
 def main(message):
+    string = []
     markup = types.InlineKeyboardMarkup()
     markup.add(types.InlineKeyboardButton('🔥 Запустить бота 🔥', callback_data='run'))
     markup.add(types.InlineKeyboardButton('Перейти на сайт', url='https://tstroy33.ru'))
@@ -96,6 +97,44 @@ def callback_message(callback):
         pipe_selection_monotermo_150and210(callback)
     elif callback.data == 'pipe_selection_monotermo_150and250':
         pipe_selection_monotermo_150and250(callback)
+    elif callback.data == 'sandwich_pipe_selection_1m':
+        sandwich_pipe_selection_1m(callback)
+    elif callback.data == 'sandwich_pipe_selection_05m':
+        sandwich_pipe_selection_05m(callback)
+    elif callback.data == 'sandwich_pipe_selection_025m':
+        sandwich_pipe_selection_025m(callback)
+    elif callback.data == 'sandwich_pipe_selection_angle45':
+        sandwich_pipe_selection_angle45(callback)
+    elif callback.data == 'sandwich_pipe_selection_angle90':
+        sandwich_pipe_selection_angle90(callback)
+    elif callback.data == 'sandwich_pipe_selection_angle90':
+        sandwich_pipe_selection_angle90(callback)
+    elif callback.data == 'tee_angle45':
+        tee_angle45(callback)
+    elif callback.data == 'tee_angle90':
+        tee_angle90(callback)
+    elif callback.data == 'condensate_collector_yes':
+        condensate_collector_yes(callback)
+    elif callback.data == 'condensate_collector_no':
+        condensate_collector_no(callback)
+    elif callback.data == 'mounting_platform_with_brackets':
+        mounting_platform_with_brackets(callback)
+    elif callback.data == 'mounting_platform_with_long_brackets':
+        mounting_platform_with_long_brackets(callback)
+    elif callback.data == 'mounting_platform_with_nothing':
+        mounting_platform_with_nothing(callback)
+    elif callback.data == 'sandwich_pipe_or_umbrella_selection_1m':
+        sandwich_pipe_or_umbrella_selection_1m(callback)
+    elif callback.data == 'sandwich_pipe_or_umbrella_selection_05m':
+        sandwich_pipe_or_umbrella_selection_05m(callback)
+    elif callback.data == 'sandwich_pipe_or_umbrella_selection_025m':
+        sandwich_pipe_or_umbrella_selection_025m(callback)
+    elif callback.data == 'sandwich_pipe_or_umbrella_selection_angle45':
+        sandwich_pipe_or_umbrella_selection_angle45(callback)
+    elif callback.data == 'sandwich_pipe_or_umbrella_selection_angle90':
+        sandwich_pipe_or_umbrella_selection_angle90(callback)
+    elif callback.data == 'umbrella':
+        umbrella(callback)
 
 
 # блок <<ВЫБОР МАТЕРИАЛА>>
@@ -201,7 +240,7 @@ def pipe_selection(callback):
     markup.row(btn4, btn5)
     markup.add(btn6)
     markup.add(btn7)
-    bot.send_message(callback.message.chat.id, 'ВЫБОР ТРУБЫ', reply_markup=markup)
+    bot.send_message(callback.message.chat.id, 'ВЫБОР ТРУБЫ:', reply_markup=markup)
 
 def pipe_selection_1m(callback):
     string.append('Обычная труба 1м')
@@ -220,14 +259,132 @@ def pipe_selection_angle90(callback):
     pipe_selection(callback)
 def pipe_selection_monotermo_150and210(callback):
     string.append('Переход моно-термо 150/210')
+    sandwich_pipe_selection(callback)
 def pipe_selection_monotermo_150and250(callback):
     string.append('Переход моно-термо 150/250')
+    sandwich_pipe_selection(callback)
 # конец блока <<ВЫБОР ТРУБЫ>>
 
 
 # блок <<ВЫБОР СЭНДВИЧ ТРУБЫ>>
+def sandwich_pipe_selection(callback):
+    markup = types.InlineKeyboardMarkup()
+    btn1 = types.InlineKeyboardButton('1 м', callback_data='sandwich_pipe_selection_1m')
+    btn2 = types.InlineKeyboardButton('1/2 м', callback_data='sandwich_pipe_selection_05m')
+    btn3 = types.InlineKeyboardButton('1/4 м', callback_data='sandwich_pipe_selection_025m')
+    btn4 = types.InlineKeyboardButton('Угол 45°', callback_data='sandwich_pipe_selection_angle45')
+    btn5 = types.InlineKeyboardButton('Угол 90°', callback_data='sandwich_pipe_selection_angle90')
+    btn6 = types.InlineKeyboardButton('Тройник 45°', callback_data='tee_angle45')
+    btn7 = types.InlineKeyboardButton('Тройник 90°', callback_data='tee_angle90')
+    markup.row(btn1, btn2, btn3)
+    markup.row(btn4, btn5)
+    markup.add(btn6)
+    markup.add(btn7)
+    bot.send_message(callback.message.chat.id, 'ВЫБОР СЭНДВИЧ ТРУБЫ:', reply_markup=markup)
 
+def sandwich_pipe_selection_1m(callback):
+    string.append('Сэндвич труба 1м')
+    sandwich_pipe_selection(callback)
+def sandwich_pipe_selection_05m(callback):
+    string.append('Сэндвич труба 0,5м')
+    sandwich_pipe_selection(callback)
+def sandwich_pipe_selection_025m(callback):
+    string.append('Сэндвич труба 0,25м')
+    sandwich_pipe_selection(callback)
+def sandwich_pipe_selection_angle45(callback):
+    string.append('Угол 45 градусов')
+    sandwich_pipe_selection(callback)
+def sandwich_pipe_selection_angle90(callback):
+    string.append('Угол 90 градусов')
+    sandwich_pipe_selection(callback)
+def tee_angle45(callback):
+    string.append('Тройник 45 градусов')
+    is_condensate_collector(callback)
+def tee_angle90(callback):
+    string.append('Тройник 90 градусов')
+    is_condensate_collector(callback)
 # конец блока <<ВЫБОР СЭНДВИЧ ТРУБЫ>>
+
+
+# блок <<ВЗЯТЬ КОНДЕНСАТОСБОРНИК?>>
+def is_condensate_collector(callback):
+    markup = types.InlineKeyboardMarkup()
+    btn1 = types.InlineKeyboardButton('Да', callback_data='condensate_collector_yes')
+    btn2 = types.InlineKeyboardButton('Нет', callback_data='condensate_collector_no')
+    markup.row(btn1, btn2)
+    bot.send_message(callback.message.chat.id, 'ВЗЯТЬ КОНДЕНСАТОСБОРНИК?', reply_markup=markup)
+
+def condensate_collector_yes(callback):
+    string.append("Конденсатосборник: Да")
+    mounting_platform(callback)
+def condensate_collector_no(callback):
+    string.append("Конденсатосборник: Нет")
+    mounting_platform(callback)
+# конец блока <<ВЗЯТЬ КОНДЕНСАТОСБОРНИК?>>
+
+
+# блок <<ЧТО ВЗЯТЬ К МОНТАЖНОЙ ПЛОЩАДКЕ?>>
+def mounting_platform(callback):
+    markup = types.InlineKeyboardMarkup()
+    btn1 = types.InlineKeyboardButton('Опору и обычные\nкронштейны', callback_data='mounting_platform_with_brackets')
+    btn2 = types.InlineKeyboardButton('Опору и удлинённые\nкронштейны', callback_data='mounting_platform_with_long_brackets')
+    btn3 = types.InlineKeyboardButton('Ничего', callback_data='mounting_platform_with_nothing')
+    markup.add(btn1)
+    markup.add(btn2)
+    markup.add(btn3)
+    bot.send_message(callback.message.chat.id, 'ЧТО ВЗЯТЬ К МОНТАЖНОЙ ПЛОЩАДКЕ?', reply_markup=markup)
+
+def mounting_platform_with_brackets(callback):
+    string.append('Монтажная площадка с: опорой и обычными кронштейнами')
+    sandwich_pipe_or_umbrella_selection(callback)
+def mounting_platform_with_long_brackets(callback):
+    string.append('Монтажная площадка с: опорой и удлинёнными кронштейнами')
+    sandwich_pipe_or_umbrella_selection(callback)
+def mounting_platform_with_nothing(callback):
+    string.append('Монтажная площадка с: ничем')
+    sandwich_pipe_or_umbrella_selection(callback)
+# конец блока <<ЧТО ВЗЯТЬ К МОНТАЖНОЙ ПЛОЩАДКЕ?>>
+
+
+# блок <<ВЫБОР СЭНДВИЧ ТРУБЫ ИЛИ ЗОНТА>>
+def sandwich_pipe_or_umbrella_selection(callback):
+    markup = types.InlineKeyboardMarkup()
+    btn1 = types.InlineKeyboardButton('1 м', callback_data='sandwich_pipe_or_umbrella_selection_1m')
+    btn2 = types.InlineKeyboardButton('1/2 м', callback_data='sandwich_pipe_or_umbrella_selection_05m')
+    btn3 = types.InlineKeyboardButton('1/4 м', callback_data='sandwich_pipe_or_umbrella_selection_025m')
+    btn4 = types.InlineKeyboardButton('Угол 45°', callback_data='sandwich_pipe_or_umbrella_selection_angle45')
+    btn5 = types.InlineKeyboardButton('Угол 90°', callback_data='sandwich_pipe_or_umbrella_selection_angle90')
+    btn6 = types.InlineKeyboardButton('Зонт', callback_data='umbrella')
+    markup.row(btn1, btn2, btn3)
+    markup.row(btn4, btn5)
+    markup.add(btn6)
+    bot.send_message(callback.message.chat.id, 'ВЫБОР СЭНДВИЧ ТРУБЫ:', reply_markup=markup)
+
+def sandwich_pipe_or_umbrella_selection_1m(callback):
+    string.append('Сэндвич труба 1м')
+    sandwich_pipe_or_umbrella_selection(callback)
+def sandwich_pipe_or_umbrella_selection_05m(callback):
+    string.append('Сэндвич труба 0,5м')
+    sandwich_pipe_or_umbrella_selection(callback)
+def sandwich_pipe_or_umbrella_selection_025m(callback):
+    string.append('Сэндвич труба 0,25м')
+    sandwich_pipe_or_umbrella_selection(callback)
+def sandwich_pipe_or_umbrella_selection_angle45(callback):
+    string.append('Угол 45 градусов')
+    sandwich_pipe_or_umbrella_selection(callback)
+def sandwich_pipe_or_umbrella_selection_angle90(callback):
+    string.append('Угол 90 градусов')
+    sandwich_pipe_or_umbrella_selection(callback)
+def umbrella(callback):
+    string.append('Зонт')
+    end_of_bot_work(callback)
+# конец блока <<ВЫБОР СЭНДВИЧ ТРУБЫ ИЛИ ЗОНТА>>
+
+
+# функция окончания работы бота и подведения итогов
+def end_of_bot_work(callback):
+    bot.send_message(callback.message.chat.id, 'Конец работы бота!')
+    bot.send_message(callback.message.chat.id, 'ИТОГ:\n\n' + "\n".join(string))
 
 
 # грубо говоря, бесконечный цикл, позволяющий не прекращать работу (выключится программа - выключится бот)
