@@ -1,10 +1,10 @@
 import telebot
 from telebot import types
 
-
+import BotToken
 
 # объект бота с токеном из @BotFather в телеге
-bot = telebot.TeleBot('7322799513:AAFErWKfIx-dKUFzuk7aLNJKsE2YIiRYBqE')
+bot = telebot.TeleBot(BotToken.botToken)
 # временный объект, запоминающий значения
 string = []
 
